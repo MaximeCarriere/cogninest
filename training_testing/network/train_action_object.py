@@ -56,7 +56,10 @@ def train_action_object(self, motor, visu, audi, arti, num_reps=10, t_on=16, t_o
                 dat['sum'] = dat['matrix'].apply(sum_arrays)
                 dat["Pres"] = patt_no_count[patt_no]
                 dat["patt_no"] = patt_no
-                save_plot_activation_new(patt_no_count[patt_no], dat, patt_no)
+                try:
+                    save_plot_activation_new(patt_no_count[patt_no], dat, patt_no)
+                except:
+                    print("Failed to plot")
 
             # Save network at specific intervals
             if (patt_no_count[-1] in when_to_save) and (patt_no == nb_pattern - 1) and (patt_no_count[-1]!=0):
