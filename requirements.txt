@@ -1,0 +1,6 @@
+seaborn
+tqdm
+IPython
+numpy
+plotly
+gradio
