@@ -93,17 +93,6 @@ echo 'source ~/nest_build/install/bin/nest_vars.sh' >> ~/.bashrc
 source ~/.bashrc  # Apply changes
 ```
 
-## 🏗 Install Felix Module
-Clone the Felix module:
-```bash
-git clone https://github.com/MaximeCarriere/nest_test.git
-```
-
-Install additional dependencies:
-```bash
-pip install seaborn tqdm IPython
-```
-
 ### 🔧 Build and Install Felix
 Create and enter the Felix build directory:
 ```bash
@@ -113,8 +102,6 @@ mkdir -p ~/felix_build && cd ~/felix_build
 Remove any old build files:
 ```bash
 rm -rf ~/felix_build/*
-rm -rf ~/nest_test/CMakeCache.txt ~/nest_test/CMakeFiles
-rm -rf ~/felix-module/CMakeCache.txt ~/felix-module/CMakeFiles
 ```
 
 Configure the Felix module:
@@ -126,6 +113,18 @@ Compile and install Felix:
 ```bash
 make -j$(nproc)
 make install
+```
+
+## 🏗 Install Cogninest
+Clone the Cogninest repo:
+```bash
+git clone https://github.com/MaximeCarriere/cogninest.git
+```
+
+Install additional dependencies:
+```bash
+cd cogninest
+pip install -r requirements.txt
 ```
 
 ---
@@ -146,9 +145,9 @@ make install
 ## 🌟 **Running a Simulation**
 To run a simulation, navigate to the correct directory and execute the Python script:
 ```bash
-cd ~/nest_test/training_action_object_refracto
-python main.py
+cd ~/cogninest/training_testing/main/
+python main_training.py
 ```
 
-🚀 **You're now ready to use NEST and Felix Module!**
+🚀 **You're now ready to use NEST and Cogninest!**
 
