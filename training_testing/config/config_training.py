@@ -1,6 +1,6 @@
 ## Verbose (print)
 verbose = (
-    0  # if verbose = 0 limited print || if 1 some print along the building/training
+    1  # if verbose = 0 limited print || if 1 some print along the building/training
 )
 
 ## Saving round
@@ -9,7 +9,7 @@ when_to_plot = 5  # When to plot the activation during training (every X present
 
 # Global Parameters
 TOTAL_TRAINING = 100
-NB_PATTERN = 120
+NB_PATTERN = 12
 SIZE_PATTERN = 19
 SEED = 12
 
