@@ -4,7 +4,6 @@ import pandas as pd
 from config.config_training import *
 from utils.visualization import *
 
-
 def create_act_obj_pattern(nb_pattern, size_pattern, seed=42):
     print("#################")
     print("CREATING PATTERN:")
@@ -14,14 +13,25 @@ def create_act_obj_pattern(nb_pattern, size_pattern, seed=42):
     # Set a fixed seed for reproducibility
     random.seed(seed)
 
+    TOTAL_NEURONS = EXC_NEURONS * EXC_NEURONS  # Total available neurons
+
+    # 🛑 ERROR CHECK: Ensure nb_pattern and size_pattern allow non-overlapping patterns
+    if nb_pattern * size_pattern > TOTAL_NEURONS:
+        raise ValueError(
+            f"❌ ERROR: The requested {nb_pattern} patterns with {size_pattern} neurons each "
+            f"exceed the available {TOTAL_NEURONS} neurons, making non-overlapping patterns impossible."
+        )
+
     motor = []
     visu = []
     audi = []
     arti = []
-    neuron_pool_motor = set(range(0, EXC_NEURONS*EXC_NEURONS))
-    neuron_pool_visu = set(range(0, EXC_NEURONS*EXC_NEURONS))
-    neuron_pool_audi = set(range(0, EXC_NEURONS*EXC_NEURONS))
-    neuron_pool_arti = set(range(0, EXC_NEURONS*EXC_NEURONS))
+    
+    # Create neuron pools
+    neuron_pool_motor = set(range(TOTAL_NEURONS))
+    neuron_pool_visu = set(range(TOTAL_NEURONS))
+    neuron_pool_audi = set(range(TOTAL_NEURONS))
+    neuron_pool_arti = set(range(TOTAL_NEURONS))
 
     for i in range(nb_pattern):
         motor.append(sorted(random.sample(list(neuron_pool_motor), size_pattern)))
@@ -43,6 +53,7 @@ def create_act_obj_pattern(nb_pattern, size_pattern, seed=42):
     plot_pattern_presence(audi, EXC_NEURONS, "audi_patterns")
     plot_pattern_presence(arti, EXC_NEURONS, "arti_patterns")
     
-    print("✅ Step 4: Returning patterns")
+    print("✅ Step 5: Returning patterns")
 
     return motor, visu, audi, arti
+
