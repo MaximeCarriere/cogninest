@@ -65,6 +65,5 @@ def train_action_object(self, motor, visu, audi, arti, num_reps=10, t_on=16, t_o
             if (patt_no_count[-1] in when_to_save) and (patt_no == nb_pattern - 1) and (patt_no_count[-1]!=0):
                 self.store(f"network_{patt_no_count[-1]}", motor, visu, audi, arti)
 
-    save_plot_weight(self, patt_no_count[-1])
     dat['sum'] = dat['matrix'].apply(sum_arrays)
     save_plot_activation_new(patt_no_count[-1], dat, patt_no)
