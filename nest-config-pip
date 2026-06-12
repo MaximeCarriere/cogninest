@@ -4,7 +4,7 @@
 
 VENV_DIR="$(cd "$(dirname "$0")" && pwd)"
 # Support both python3.11 and other patch versions
-NEST_SITE="$(find "${VENV_DIR}/venv/lib" -maxdepth 2 -name "nest" -path "*/site-packages/nest" 2>/dev/null | head -1)"
+NEST_SITE="$(find "${VENV_DIR}/venv/lib" -maxdepth 3 -name "nest" -path "*/site-packages/nest" 2>/dev/null | head -1)"
 PREFIX="${VENV_DIR}"
 
 # Detect libomp include path (macOS via brew, or system on Linux)
