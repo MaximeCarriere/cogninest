@@ -30,9 +30,6 @@
 #include "event_delivery_manager_impl.h"
 #include "kernel_manager.h"
 
-// Includes from sli:
-#include "dict.h"
-#include "dictutils.h"
 
 felixmodule::felix_spike_recorder::felix_spike_recorder()
   : nest::RecordingDevice()
@@ -63,7 +60,7 @@ felixmodule::felix_spike_recorder::get_type() const
 }
 
 void
-felixmodule::felix_spike_recorder::get_status( DictionaryDatum& d ) const
+felixmodule::felix_spike_recorder::get_status( Dictionary& d ) const
 {
   nest::RecordingDevice::get_status( d );
 
@@ -85,7 +82,7 @@ felixmodule::felix_spike_recorder::get_status( DictionaryDatum& d ) const
 }
 
 void
-felixmodule::felix_spike_recorder::set_status( const DictionaryDatum& d )
+felixmodule::felix_spike_recorder::set_status( const Dictionary& d )
 {
   RecordingDevice::set_status( d );
 }

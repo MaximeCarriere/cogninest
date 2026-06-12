@@ -1,0 +1,79 @@
+#! /bin/sh
+# Patched nest-config for pip-installed NEST 3.10.0
+# Points to real venv paths instead of the temp build directory.
+
+VENV_DIR="$(cd "$(dirname "$0")" && pwd)"
+NEST_SITE="${VENV_DIR}/venv/lib/python3.11/site-packages/nest"
+PREFIX="${VENV_DIR}"
+
+usage()
+{
+    cat <<EOF
+Usage: nest-config-pip [OPTION]
+Wrapper around pip-installed NEST 3.10.0 nest-config with corrected paths.
+EOF
+    exit "${1}"
+}
+
+if test $# -eq 0; then
+    usage 1
+fi
+
+while test $# -gt 0; do
+    case "$1" in
+    --prefix)
+        echo "${PREFIX}"
+        ;;
+    --exec-prefix)
+        echo "${PREFIX}"
+        ;;
+    --version)
+        echo "3.10.0"
+        ;;
+    --help)
+        usage 0
+        ;;
+    --includes)
+        echo " -I${NEST_SITE}/include/nest -I/opt/homebrew/include -I/opt/homebrew/Cellar/boost/1.90.0_1/include -I/opt/homebrew/Cellar/libomp/20.1.7/include"
+        ;;
+    --cflags)
+        echo " -Wall -Xclang -fopenmp -O2 -O3 -DNDEBUG -std=c++20"
+        ;;
+    --libs)
+        echo "-L${NEST_SITE}/.dylibs ${NEST_SITE}/.dylibs/libltdl.7.dylib ${NEST_SITE}/.dylibs/libgsl.28.dylib ${NEST_SITE}/.dylibs/libgslcblas.0.dylib ${NEST_SITE}/.dylibs/libomp.dylib -undefined dynamic_lookup"
+        ;;
+    --compiler)
+        echo "/usr/bin/clang++"
+        ;;
+    --compiler-name)
+        echo "AppleClang"
+        ;;
+    --compiler-version)
+        echo "15.0.0"
+        ;;
+    --python-executable)
+        echo "${VENV_DIR}/venv/bin/python3"
+        ;;
+    --python-version)
+        echo "3.11.7"
+        ;;
+    --static-libraries)
+        echo "OFF"
+        ;;
+    --docdir)
+        echo "share/doc/nest"
+        ;;
+    --datadir)
+        echo "nest/share/nest"
+        ;;
+    --libdir)
+        echo "lib"
+        ;;
+    *)
+        usage 1
+        ;;
+    esac
+    shift
+done
+
+exit 0

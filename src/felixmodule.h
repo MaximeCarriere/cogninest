@@ -23,9 +23,8 @@
 #ifndef FELIXMODULE_H
 #define FELIXMODULE_H
 
-// Includes from sli:
-#include "slifunction.h"
-#include "slimodule.h"
+// Includes from NEST:
+#include "nest_extension_interface.h"
 
 // Put your stuff into your own namespace.
 namespace felixmodule
@@ -33,34 +32,17 @@ namespace felixmodule
 
 /**
  * Class defining your model.
- * @note For each model, you must define one such class, with a unique name.
  */
-class Felixmodule : public SLIModule
+class Felixmodule : public nest::NESTExtensionInterface
 {
 public:
-  // Interface functions ------------------------------------------
+  Felixmodule() {}
+  ~Felixmodule() override {}
 
   /**
-   * @note The constructor registers the module with the dynamic loader.
-   *       Initialization proper is performed by the init() method.
+   * Initialize module: register all node models and synapses.
    */
-  Felixmodule();
-
-  /**
-   * @note The destructor does not do much in modules.
-   */
-  ~Felixmodule() override;
-
-  /**
-   * Initialize module.
-   * @param SLIInterpreter* SLI interpreter
-   */
-  void init( SLIInterpreter* ) override;
-
-  /**
-   * Return the name of your module.
-   */
-  const std::string name() const override;
+  void initialize() override;
 
 };
 } // namespace felixmodule

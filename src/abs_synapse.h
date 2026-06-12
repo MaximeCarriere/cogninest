@@ -103,12 +103,12 @@ public:
   /**
    * Get all properties and put them into a dictionary.
    */
-  void get_status( DictionaryDatum& d ) const;
+  void get_status( Dictionary& d ) const;
 
   /**
    * Set properties from the values given in dictionary.
    */
-  void set_status( const DictionaryDatum& d, nest::ConnectorModel& cm );
+  void set_status( const Dictionary& d, nest::ConnectorModel& cm );
 
   // data members common to all connections
   double theta_pre;
@@ -161,18 +161,18 @@ public:
   /**
    * Get all properties of this connection and put them into a dictionary.
    */
-  void get_status( DictionaryDatum& d ) const;
+  void get_status( Dictionary& d ) const;
 
   /**
    * Set properties of this connection from the values given in dictionary.
    */
-  void set_status( const DictionaryDatum& d, nest::ConnectorModel& cm );
+  void set_status( const Dictionary& d, nest::ConnectorModel& cm );
 
   /**
    * Send an event to the receiver of this connection.
    * \param e The event to send
    */
-  void send( nest::Event& e, size_t t, const ABSCommonProperties& );
+  bool send( nest::Event& e, size_t t, const ABSCommonProperties& );
 
   void
   set_weight( double w )
@@ -239,7 +239,7 @@ abs_synapse< targetidentifierT >::abs_synapse()
  * \param p The port under which this connection is stored in the Connector.
  */
 template < typename targetidentifierT >
-inline void
+inline bool
 abs_synapse< targetidentifierT >::send( nest::Event& e, size_t t, const ABSCommonProperties& cp )
 //{
 //  felix_exc* target = dynamic_cast< felix_exc* >( get_target( t ) );
@@ -367,25 +367,25 @@ abs_synapse< targetidentifierT >::send( nest::Event& e, size_t t, const ABSCommo
   e.set_delay_steps( get_delay_steps() );
   e.set_rport( get_rport() );
   e();
+
+  return true;
 }
 
 template < typename targetidentifierT >
 void
-abs_synapse< targetidentifierT >::get_status( DictionaryDatum& d ) const
+abs_synapse< targetidentifierT >::get_status( Dictionary& d ) const
 {
 
-  // base class properties, different for individual synapse
   ConnectionBase::get_status( d );
-  def< double >( d, nest::names::weight, weight_ );
+  d[ nest::names::weight ] = weight_;
 }
 
 template < typename targetidentifierT >
 void
-abs_synapse< targetidentifierT >::set_status( const DictionaryDatum& d, nest::ConnectorModel& cm )
+abs_synapse< targetidentifierT >::set_status( const Dictionary& d, nest::ConnectorModel& cm )
 {
-  // base class properties
   ConnectionBase::set_status( d, cm );
-  updateValue< double >( d, nest::names::weight, weight_ );
+  d.update_value( nest::names::weight, weight_ );
 }
 
 } // of namespace felixmodule

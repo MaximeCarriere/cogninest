@@ -29,8 +29,6 @@
 #include "model_manager_impl.h"
 #include "nest_impl.h"
 
-// Includes from sli:
-#include "dictdatum.h"
 
 namespace felixmodule
 {
@@ -54,25 +52,25 @@ ABSCommonProperties::ABSCommonProperties()
 }
 
 void
-ABSCommonProperties::get_status( DictionaryDatum& d ) const
+ABSCommonProperties::get_status( Dictionary& d ) const
 {
   CommonSynapseProperties::get_status( d );
 
-  def< double >( d, "theta_pre" , theta_pre );
-  def< double >( d, "theta_plus" , theta_plus );
-  def< double >( d, "theta_minus" , theta_minus );
-  def< double >( d, "Delta", Delta );
+  d[ "theta_pre" ] = theta_pre;
+  d[ "theta_plus" ] = theta_plus;
+  d[ "theta_minus" ] = theta_minus;
+  d[ "Delta" ] = Delta;
 }
 
 void
-ABSCommonProperties::set_status( const DictionaryDatum& d, nest::ConnectorModel& cm )
+ABSCommonProperties::set_status( const Dictionary& d, nest::ConnectorModel& cm )
 {
   CommonSynapseProperties::set_status( d, cm );
 
-  updateValue< double >( d, "theta_pre" , theta_pre );
-  updateValue< double >( d, "theta_plus" , theta_plus );
-  updateValue< double >( d, "theta_minus" , theta_minus );
-  updateValue< double >( d, "Delta", Delta );
+  d.update_value( "theta_pre", theta_pre );
+  d.update_value( "theta_plus", theta_plus );
+  d.update_value( "theta_minus", theta_minus );
+  d.update_value( "Delta", Delta );
 }
 
 } // of namespace nest

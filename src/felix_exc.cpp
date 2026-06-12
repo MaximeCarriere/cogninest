@@ -34,12 +34,8 @@
 #include "kernel_manager.h"
 #include "universal_data_logger_impl.h"
 
-// Includes from sli:
-#include "dict.h"
-#include "dictutils.h"
-#include "doubledatum.h"
-#include "integerdatum.h"
-#include "sharedptrdatum.h"
+// Includes from nestkernel:
+#include "dictionary.h"
 
 using namespace nest;
 
@@ -108,40 +104,36 @@ felixmodule::felix_exc::State_::State_( const Parameters_& p )
  * ---------------------------------------------------------------- */
 
 void
-felixmodule::felix_exc::Parameters_::get( DictionaryDatum& d ) const
+felixmodule::felix_exc::Parameters_::get( Dictionary& d ) const
 {
-  ( *d )[ names::tau_m ] = tau_m;
-  ( *d )[ "tau_adapt" ] = tau_adapt;
-  ( *d )[ "tau_e" ] = tau_e;
-  ( *d )[ names::I_e ] = I_e;
-  ( *d )[ "k_1" ] = k_1;
-  ( *d )[ "k_2" ] = k_2;
-  ( *d )[ "alpha" ] = alpha;
-  ( *d )[ "alpha_e" ] = alpha_e;
-  ( *d )[ "thresh" ] = thresh;
-  ( *d )[ "magic" ] = magic;
-  ( *d )[ "Jexcitatory" ] = Jexcitatory;
-  //( *d )[ "Jinhibitory" ] = Jinhibitory;
-    
-    
+  d[ names::tau_m ] = tau_m;
+  d[ "tau_adapt" ] = tau_adapt;
+  d[ "tau_e" ] = tau_e;
+  d[ names::I_e ] = I_e;
+  d[ "k_1" ] = k_1;
+  d[ "k_2" ] = k_2;
+  d[ "alpha" ] = alpha;
+  d[ "alpha_e" ] = alpha_e;
+  d[ "thresh" ] = thresh;
+  d[ "magic" ] = magic;
+  d[ "Jexcitatory" ] = Jexcitatory;
 }
 
 void
-felixmodule::felix_exc::Parameters_::set( const DictionaryDatum& d )
+felixmodule::felix_exc::Parameters_::set( const Dictionary& d )
 {
-  updateValue< double >( d, names::tau_m, tau_m );
-  updateValue< double >( d, "tau_adapt", tau_adapt );
-  updateValue< double >( d, "tau_e", tau_e );
-  updateValue< double >( d, names::I_e, I_e );
-  updateValue< double >( d, "k_1", k_1 );
-  updateValue< double >( d, "k_2", k_2 );
-  updateValue< double >( d, "alpha", alpha );
-  updateValue< double >( d, "alpha_e", alpha_e);
-  updateValue< double >( d, "thresh", thresh );
-  updateValue< double >( d, "magic", magic );
-  updateValue< double >( d, "Jexcitatory", Jexcitatory);
-  //updateValue< double >( d, "Jinhibitory", Jinhibitory);
-    
+  d.update_value( names::tau_m, tau_m );
+  d.update_value( "tau_adapt", tau_adapt );
+  d.update_value( "tau_e", tau_e );
+  d.update_value( names::I_e, I_e );
+  d.update_value( "k_1", k_1 );
+  d.update_value( "k_2", k_2 );
+  d.update_value( "alpha", alpha );
+  d.update_value( "alpha_e", alpha_e );
+  d.update_value( "thresh", thresh );
+  d.update_value( "magic", magic );
+  d.update_value( "Jexcitatory", Jexcitatory );
+
   if ( tau_m <= 0 )
   {
     throw nest::BadProperty( "The membrane capacitance must be strictly positive." );
@@ -149,25 +141,24 @@ felixmodule::felix_exc::Parameters_::set( const DictionaryDatum& d )
 }
 
 void
-felixmodule::felix_exc::State_::get( DictionaryDatum& d ) const
+felixmodule::felix_exc::State_::get( Dictionary& d ) const
 {
-  ( *d )[ names::V_m ] = V_m;
-  ( *d )[ "om" ] = om;
-  ( *d )[ "om_e" ] = om_e;
-  ( *d )[ "I_tot" ] = I_tot;
-  ( *d )[ "phi" ] = phi;
-  ( *d )[ "I_exc" ] = I_exc;
-  ( *d )[ "I_inh" ] = I_inh;
-  ( *d )[ "I_noise" ] = I_noise;
-  //( *d )[ "I_pg" ] = I_pg;
+  d[ names::V_m ] = V_m;
+  d[ "om" ] = om;
+  d[ "om_e" ] = om_e;
+  d[ "I_tot" ] = I_tot;
+  d[ "phi" ] = phi;
+  d[ "I_exc" ] = I_exc;
+  d[ "I_inh" ] = I_inh;
+  d[ "I_noise" ] = I_noise;
 }
 
 void
-felixmodule::felix_exc::State_::set( const DictionaryDatum& d, const Parameters_& p )
+felixmodule::felix_exc::State_::set( const Dictionary& d, const Parameters_& p )
 {
-  updateValue< double >( d, names::V_m, V_m );
-  updateValue< double >( d, "om", om );
-  updateValue< double >( d, "om_e", om_e );
+  d.update_value( names::V_m, V_m );
+  d.update_value( "om", om );
+  d.update_value( "om_e", om_e );
 }
 
 felixmodule::felix_exc::Buffers_::Buffers_( felix_exc& n )

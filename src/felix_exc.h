@@ -32,8 +32,8 @@
 #include "ring_buffer.h"
 #include "universal_data_logger.h"
 
-// Includes from sli:
-#include "dictdatum.h"
+// Includes from nestkernel:
+#include "dictionary.h"
 
 namespace felixmodule
 {
@@ -196,8 +196,8 @@ public:
   size_t handles_test_event( nest::DataLoggingRequest&, size_t ) override;
   /** @} */
 
-  void get_status( DictionaryDatum& ) const override;
-  void set_status( const DictionaryDatum& ) override;
+  void get_status( Dictionary& ) const override;
+  void set_status( const Dictionary& ) override;
 
   bool is_off_grid() const override;
 
@@ -251,10 +251,10 @@ private:
     Parameters_();
 
     //! Store parameter values in dictionary.
-    void get( DictionaryDatum& ) const;
+    void get( Dictionary& ) const;
 
     //! Set parameter values from dictionary.
-    void set( const DictionaryDatum& );
+    void set( const Dictionary& );
   };
 
   /**
@@ -296,14 +296,14 @@ private:
     State_( const Parameters_& );
 
     /** Store state values in dictionary. */
-    void get( DictionaryDatum& ) const;
+    void get( Dictionary& ) const;
 
     /**
      * Set membrane potential from dictionary.
      * @note Receives Parameters_ so it can test that the new membrane potential
      *       is below threshold.
      */
-    void set( const DictionaryDatum&, const Parameters_& );
+    void set( const Dictionary&, const Parameters_& );
   };
 
   /**
@@ -476,7 +476,7 @@ felixmodule::felix_exc::handles_test_event( nest::DataLoggingRequest& dlr, size_
 }
 
 inline void
-felix_exc::get_status( DictionaryDatum& d ) const
+felix_exc::get_status( Dictionary& d ) const
 {
   // get our own parameter and state data
   P_.get( d );
@@ -489,7 +489,7 @@ felix_exc::get_status( DictionaryDatum& d ) const
 }
 
 inline void
-felix_exc::set_status( const DictionaryDatum& d )
+felix_exc::set_status( const Dictionary& d )
 {
   Parameters_ ptmp = P_; // temporary copy in case of errors
   ptmp.set( d );         // throws if BadProperty

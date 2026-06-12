@@ -33,12 +33,8 @@
 #include "kernel_manager.h"
 #include "universal_data_logger_impl.h"
 
-// Includes from sli:
-#include "dict.h"
-#include "dictutils.h"
-#include "doubledatum.h"
-#include "integerdatum.h"
-#include "sharedptrdatum.h"
+// Includes from nestkernel:
+#include "dictionary.h"
 
 using namespace nest;
 
@@ -84,17 +80,17 @@ felixmodule::felix_inh::State_::State_( const Parameters_& p )
  * ---------------------------------------------------------------- */
 
 void
-felixmodule::felix_inh::Parameters_::get( DictionaryDatum& d ) const
+felixmodule::felix_inh::Parameters_::get( Dictionary& d ) const
 {
-  ( *d )[ names::tau_m ] = tau_m;
-  ( *d )[ "k_1" ] = k_1;
+  d[ names::tau_m ] = tau_m;
+  d[ "k_1" ] = k_1;
 }
 
 void
-felixmodule::felix_inh::Parameters_::set( const DictionaryDatum& d )
+felixmodule::felix_inh::Parameters_::set( const Dictionary& d )
 {
-  updateValue< double >( d, names::tau_m, tau_m );
-  updateValue< double >( d, "k_1", k_1 );
+  d.update_value( names::tau_m, tau_m );
+  d.update_value( "k_1", k_1 );
   if ( tau_m <= 0 )
   {
     throw nest::BadProperty( "The membrane time constant must be strictly positive." );
@@ -102,16 +98,16 @@ felixmodule::felix_inh::Parameters_::set( const DictionaryDatum& d )
 }
 
 void
-felixmodule::felix_inh::State_::get( DictionaryDatum& d ) const
+felixmodule::felix_inh::State_::get( Dictionary& d ) const
 {
-  ( *d )[ names::V_m ] = V_m;
-  ( *d )[ "I_tot" ] = I_tot;
+  d[ names::V_m ] = V_m;
+  d[ "I_tot" ] = I_tot;
 }
 
 void
-felixmodule::felix_inh::State_::set( const DictionaryDatum& d, const Parameters_& p )
+felixmodule::felix_inh::State_::set( const Dictionary& d, const Parameters_& p )
 {
-  updateValue< double >( d, names::V_m, V_m );
+  d.update_value( names::V_m, V_m );
 }
 
 felixmodule::felix_inh::Buffers_::Buffers_( felix_inh& n )
