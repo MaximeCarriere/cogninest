@@ -22,6 +22,7 @@ class FelixNet:
         try:
             nest.ResetKernel()
             nest.set(resolution=0.5, local_num_threads=12, rng_seed=12)
+            nest.Install('felixmodule')
         except Exception as e:
             print("Error during NEST kernel reset:", e)
 

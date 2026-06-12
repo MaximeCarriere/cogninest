@@ -5,13 +5,6 @@ import os
 # Add the project root directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ✅ Only install if it's not already loaded
-installed_modules = nest.GetKernelStatus().get("loaded_modules", [])
-if "felixmodule" not in installed_modules:
-    nest.Install('felixmodule')
-else:
-    print("Felix Module is already installed, skipping installation.")
-
 from network.network_building import FelixNet
 from utils.file_operations import *
 from utils.visualization import *
