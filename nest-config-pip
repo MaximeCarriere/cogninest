@@ -3,8 +3,16 @@
 # Points to real venv paths instead of the temp build directory.
 
 VENV_DIR="$(cd "$(dirname "$0")" && pwd)"
-NEST_SITE="${VENV_DIR}/venv/lib/python3.11/site-packages/nest"
+# Support both python3.11 and other patch versions
+NEST_SITE="$(find "${VENV_DIR}/venv/lib" -maxdepth 2 -name "nest" -path "*/site-packages/nest" 2>/dev/null | head -1)"
 PREFIX="${VENV_DIR}"
+
+# Detect libomp include path (macOS via brew, or system on Linux)
+if command -v brew > /dev/null 2>&1; then
+    LIBOMP_INC="$(brew --prefix libomp 2>/dev/null)/include"
+else
+    LIBOMP_INC="/usr/lib/llvm-14/include"  # Linux fallback
+fi
 
 usage()
 {
@@ -34,7 +42,7 @@ while test $# -gt 0; do
         usage 0
         ;;
     --includes)
-        echo " -I${NEST_SITE}/include/nest -I/opt/homebrew/include -I/opt/homebrew/Cellar/boost/1.90.0_1/include -I/opt/homebrew/Cellar/libomp/20.1.7/include"
+        echo " -I${NEST_SITE}/include/nest -I/opt/homebrew/include -I${LIBOMP_INC}"
         ;;
     --cflags)
         echo " -Wall -Xclang -fopenmp -O2 -O3 -DNDEBUG -std=c++20"
@@ -55,7 +63,7 @@ while test $# -gt 0; do
         echo "${VENV_DIR}/venv/bin/python3"
         ;;
     --python-version)
-        echo "3.11.7"
+        "${VENV_DIR}/venv/bin/python3" -c "import sys; print('{}.{}.{}'.format(*sys.version_info[:3]))"
         ;;
     --static-libraries)
         echo "OFF"
